@@ -17,20 +17,21 @@ const Todo = () => {
     return (
         <div>
             <h1>Todo</h1>
-            <p>This is a complex todo list component.</p>
             <div>
                 {data?.todoList?.map((t) => (
                     <Card style={{ marginBottom: "4rem" }}>
                         <CardContent>
-                            <h3>todoList id:{t.id}</h3>
-                            <h3>todoList: title{t.title}</h3>
+                            <h3>{t.title}</h3>
                             <>
-                                {t.items.map((i) => (
-                                    <>
-                                        <h5>todoItem id:{i.id}</h5>
-                                        <h5>todoItem title:{i.title}</h5>
-                                    </>
-                                ))}
+                                {t.items.length == 0 ? (
+                                    <div>oh oh.. empty</div>
+                                ) : (
+                                    t.items.map((i) => (
+                                        <>
+                                            <h5>> {i.title}</h5>
+                                        </>
+                                    ))
+                                )}
                             </>
                         </CardContent>
                     </Card>

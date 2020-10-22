@@ -7,6 +7,13 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum priority_level_enum {
+  high = "high",
+  low = "low",
+  medium = "medium",
+  none = "none",
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
