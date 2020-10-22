@@ -29,15 +29,14 @@ function App() {
             <Container>
                 <div style={{ marginBottom: "4rem" }}>
                     {data?.todoList.map((t) => (
-                        <>
-                            <Button
-                                variant={"contained"}
-                                color={selectedTodoList?.id === t.id ? "primary" : "default"}
-                                onClick={() => setSelectedTodoList(t)}
-                            >
-                                {t.title}
-                            </Button>
-                        </>
+                        <Button
+                            key={t.id}
+                            variant={"contained"}
+                            color={selectedTodoList?.id === t.id ? "primary" : "default"}
+                            onClick={() => setSelectedTodoList(t)}
+                        >
+                            {t.title}
+                        </Button>
                     ))}
                 </div>
                 <TodoFormDialog todoList={selectedTodoList} />

@@ -19,7 +19,7 @@ const Todo = () => {
             <h1>Todo</h1>
             <div>
                 {data?.todoList?.map((t) => (
-                    <Card style={{ marginBottom: "4rem" }}>
+                    <Card key={t.id} style={{ marginBottom: "4rem" }}>
                         <CardContent>
                             <h3>{t.title}</h3>
                             <>
@@ -27,9 +27,9 @@ const Todo = () => {
                                     <div>oh oh.. empty</div>
                                 ) : (
                                     t.items.map((i) => (
-                                        <>
+                                        <div key={i.id}>
                                             <h5>> {i.title}</h5>
-                                        </>
+                                        </div>
                                     ))
                                 )}
                             </>
