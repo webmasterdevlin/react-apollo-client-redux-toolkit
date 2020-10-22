@@ -27,11 +27,11 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "npm run codegen && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "generate": "apollo client:codegen --target typescript"
+    "codegen": "apollo client:codegen --target typescript"
   },
   "eslintConfig": {
     "extends": "react-app"
