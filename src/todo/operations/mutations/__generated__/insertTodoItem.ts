@@ -47,3 +47,11 @@ export interface insertTodoItem {
    */
   insert_todo_item: insertTodoItem_insert_todo_item | null;
 }
+
+export interface insertTodoItemVariables {
+  list_id: any;
+  note?: string | null;
+  priority: priority_level_enum;
+  title: string;
+  reminder?: any | null;
+}

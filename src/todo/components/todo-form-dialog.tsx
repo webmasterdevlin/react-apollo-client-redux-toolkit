@@ -12,17 +12,22 @@ import {
     Paper,
     TextField,
 } from "@material-ui/core";
-import { FetchTodoList_todoList } from "../operations/queries/__generated__/FetchTodoList";
+import {
+    FetchTodoList,
+    FetchTodoList_todoList,
+} from "../operations/queries/__generated__/FetchTodoList";
 import { useMutation } from "@apollo/client";
 import { INSERT_TODO_ITEM } from "../operations/mutations";
 import { formsInitialValue, validationSchema } from "./formik.config";
+import { insertTodoItem } from "../operations/mutations/__generated__/insertTodoItem";
+import { cache } from "../../cache";
 
 const TodoFormDialog: FC<{
     todoList?: FetchTodoList_todoList;
 }> = ({ todoList }) => {
     const [open, setOpen] = React.useState(false);
 
-    const [postTodoItem, { data }] = useMutation(INSERT_TODO_ITEM);
+    const [mutate, { data }] = useMutation<FetchTodoList>(INSERT_TODO_ITEM);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -37,7 +42,27 @@ const TodoFormDialog: FC<{
             <Formik
                 initialValues={formsInitialValue}
                 validationSchema={validationSchema}
-                onSubmit={async (values, actions) => {}}
+                onSubmit={async (values, actions) => {
+                    await mutate({
+                        variables: {
+                            list_id: values.list_id,
+                            note: values.note,
+                            priority: values.priority,
+                            title: values.title,
+                            reminder: values.reminder,
+                        },
+                        update: (cache, { data }) => {
+                            cache.modify({
+                                fields: {
+                                    todoList: (previousData) => {
+                                        alert("2nd");
+                                        return [...previousData];
+                                    },
+                                },
+                            });
+                        },
+                    });
+                }}
             >
                 {(formikProps) => (
                     <Form style={{ padding: "1rem" }}>
@@ -86,28 +111,9 @@ const TodoFormDialog: FC<{
                                         disabled={!formikProps.dirty || !formikProps.isValid}
                                         type="submit"
                                         color={"primary"}
-                                        onClick={async () => {
-                                            await postTodoItem({
-                                                variables: formikProps.values,
-                                                update: (cache, { data }) => {
-                                                    const cachedId: any = cache.identify(
-                                                        data.todoList
-                                                    );
-                                                    cache.modify({
-                                                        fields: {
-                                                            todoList: (
-                                                                previousData,
-                                                                { toReference }
-                                                            ) => {
-                                                                return [
-                                                                    ...previousData,
-                                                                    toReference(cachedId),
-                                                                ];
-                                                            },
-                                                        },
-                                                    });
-                                                },
-                                            });
+                                        onClick={() => {
+                                            formikProps.handleSubmit();
+                                            handleClose();
                                         }}
                                     >
                                         Save Todo
