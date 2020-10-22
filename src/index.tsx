@@ -3,12 +3,16 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { ApolloClient, ApolloProvider, gql } from "@apollo/client";
+import { ApolloClient, ApolloProvider } from "@apollo/client";
 import { cache } from "./cache";
 
 export const client = new ApolloClient({
     cache,
     uri: "https://free-moth-69.hasura.app/v1/graphql",
+    headers: {
+        "client-name": "ac3-todos-backend",
+        "client-version": "1.0.0",
+    },
     connectToDevTools: true,
 });
 
